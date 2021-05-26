@@ -21,11 +21,11 @@ The first dataset is a subset of real data from the Million Song Dataset(https:/
 
 song_data/A/B/C/TRABCEI128F424C983.json song_data/A/A/B/TRAABJL12903CDCF1A.json
 
-And below is an example of what a single song file, TRAABJL12903CDCF1A.json, looks like.
+#### And below is an example of what a single song file, TRAABJL12903CDCF1A.json, looks like.
 
 {"num_songs": 1, "artist_id": "ARJIE2Y1187B994AB7", "artist_latitude": null, "artist_longitude": null, "artist_location": "", "artist_name": "Line Renaud", "song_id": "SOUPIRU12A6D4FA1E1", "title": "Der Kleine Dompfaff", "duration": 152.92036, "year": 0}
 
-Log Dataset
+#### Log Dataset
 
 The second dataset consists of log files in JSON format. The log files in the dataset with are partitioned by year and month. For example:
 
@@ -53,7 +53,7 @@ artists - artists in music database artist_id, name, location, lattitude, longit
 
 time - timestamps of records in songplays broken down into specific units start_time, hour, day, week, month, year, weekday
 
-Project Template
+##### Project Template
 
 Project Template include three files:
 
@@ -63,7 +63,7 @@ Project Template include three files:
 
 3. README.md provides discussion on your process and decisions
 
-ETL Pipeline
+##### ETL Pipeline
 
 Load the credentials from dl.cfg
 Load the Data which are in JSON Files(Song Data and Log Data)
