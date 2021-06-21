@@ -14,6 +14,9 @@ os.environ['AWS_SECRET_ACCESS_KEY']=config['AWS_SECRET_ACCESS_KEY']
 
 
 def create_spark_session():
+    """
+    Creates a new or uses the existing spark session.
+    """
     spark = SparkSession \
         .builder \
         .config("spark.jars.packages", "org.apache.hadoop:hadoop-aws:2.7.0") \
@@ -22,6 +25,12 @@ def create_spark_session():
 
 
 def process_song_data(spark, input_data, output_data):
+    """
+    Processes all song data JSON files in the given input folder and stores them in parquet format in the output folder.
+    :param spark: spark session
+    :param input_data: input data path
+    :param output_data: output data path
+    """
     # get filepath to song data file
     song_data = input_data + 'song_data/*/*/*/*.json'
     
@@ -29,21 +38,26 @@ def process_song_data(spark, input_data, output_data):
     df = spark.read.json(song_data)
 
     # extract columns to create songs table
-    songs_table = spark.sql("""
-                            SELECT sdtn.song_id, 
-                            sdtn.title,
-                            sdtn.artist_id,
-                            sdtn.year,
-                            sdtn.duration
-                            FROM song_data_table sdtn
-                            WHERE song_id IS NOT NULL
-                        """)
+    songs_table = df.select("song_id","title","artist_id","year","duration").drop_duplicates()
+    
+    #songs_table = spark.sql("""
+                          #  SELECT sdtn.song_id, 
+                          #  sdtn.title,
+                          #  sdtn.artist_id,
+                          #  sdtn.year,
+                          #  sdtn.duration
+                          #  FROM song_data_table sdtn
+                         #   WHERE song_id IS NOT NULL
+                      #  """)
     
     # write songs table to parquet files partitioned by year and artist
     songs_table.write.mode('overwrite').partitionBy("year", "artist_id").parquet(output_data+'songs_table/')
 
     # extract columns to create artists table
-    artists_table = spark.sql("""
+    artists_table = df.select("artist_id","artist_name","artist_location","artist_latitude","artist_longitude").drop_duplicates()
+
+        
+    '''artists_table = spark.sql("""
                                 SELECT DISTINCT arti.artist_id, 
                                 arti.artist_name,
                                 arti.artist_location,
@@ -51,13 +65,19 @@ def process_song_data(spark, input_data, output_data):
                                 arti.artist_longitude
                                 FROM song_data_table arti
                                 WHERE arti.artist_id IS NOT NULL
-                            """)
+                            """)'''
     
     # write artists table to parquet files
     artists_table.write.mode('overwrite').parquet(output_data+'artists_table/')
 
 
 def process_log_data(spark, input_data, output_data):
+    """
+    Processes all log data JSON files in the given input folder and stores them in parquet format in the output folder.
+    :param spark: spark session
+    :param input_data: input data path
+    :param output_data: output data path
+    """
     # get filepath to log data file
     log_data =input_data + 'log_data/*.json'
 
@@ -149,8 +169,6 @@ def main():
     input_data = "s3a://udacity-dend/"
     output_data = "s3a://udacity-dend/dloutput/"
     
-    #input_data = "./"
-    #output_data = "./dloutput/"
     
     process_song_data(spark, input_data, output_data)    
     process_log_data(spark, input_data, output_data)
