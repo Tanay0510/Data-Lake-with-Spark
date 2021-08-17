@@ -2,9 +2,9 @@
 
 Project Description
 
-Apply the knowledge of Spark and Data Lakes to build an ETL pipeline for a Data Lake hosted on Amazon S3
+Applied the knowledge of Spark and Data Lakes to build an ETL pipeline for a Data Lake hosted on Amazon S3
 
-In this task, we have to build an ETL Pipeline that extracts their data from S3 and process them using Spark and then load back into S3 in a set of Fact and Dimension Tables. This will allow their analytics team to continue finding insights in what songs their users are listening. Will have to deploy this Spark process on a Cluster using AWS
+we have to build an ETL Pipeline that extracts their data from S3 and process them using Spark and then load back into S3 in a set of Fact and Dimension Tables. This will allow analytics team to continue finding insights in what songs their users are listening. Will have to deploy this Spark process on a Cluster using AWS
 
 #### How to create and run EMR cluster
 
